@@ -16,7 +16,7 @@ everything following the first line feed.
 
 [fernet key]: https://github.com/fernet/spec/blob/master/Spec.md#key-format
 
-A **token file** is a file starting with---guess---a [fernet token].
+A **token file** is a file starting with -- guess -- a [fernet token].
 Bitter ignores everything following the first line feed.
 
     $ cat examples/secrets.txt.bitter
@@ -29,10 +29,10 @@ A fernet token has the following properties:
 
   - It's self-contained.
     All we need to know in order to decrypt it, is the key.
-  
+
   - It's authenticated.
     No one who doesn't know the key can modify it without us noticing.
-    
+
   - It's timestamped.
     Everyone can see when it was created; and that time is
     authenticated, so we can reject tokens we deem expired.
@@ -41,7 +41,7 @@ A fernet token has the following properties:
 
 To generate a random fernet key:
 
-    bitter generate > bitter-key
+    python3 bitter.py generate > bitter-key
 
 Since encrypting and decrypting requires a key and an input, bitter expects
 one to provide either the `-k` or `-i` option. The two are mutually exclusive:
@@ -54,18 +54,18 @@ one to provide either the `-k` or `-i` option. The two are mutually exclusive:
 
 To encrypt and decrypt with a key file, one would:
 
-    bitter encrypt -k bitter-key < secrets.txt > secrets.txt.bitter
-    bitter decrypt -k bitter-key < secrets.txt.bitter > secrets.txt
+    python3 bitter.py encrypt -k bitter-key < secrets.txt > secrets.txt.bitter
+    python3 bitter.py decrypt -k bitter-key < secrets.txt.bitter > secrets.txt
 
 Piping is fine, but consider that bitter processes the input as a whole,
 not incrementally.
 
-    source | bitter encrypt -k bitter-key | destination
-    source | bitter decrypt -k bitter-key | destination
+    source | python3 bitter.py encrypt -k bitter-key | destination
+    source | python3 bitter.py decrypt -k bitter-key | destination
 
 Instead, with an online key, one would:
 
-    key-source | bitter encrypt -i secrets.txt > secrets.txt.bitter
+    key-source | python3 bitter.py encrypt -i secrets.txt > secrets.txt.bitter
 
 I don't envision any practical use of the `-k-` and `-i-` forms, which have
 the same effect of conflating the key and the input; anyway, the key is always
