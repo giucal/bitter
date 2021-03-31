@@ -1,2 +1,7 @@
 uTnXlfGfvd0RyuphRkDgb0gqXMqRzjni-Rdi86YGk8g=
-This is ignored by bitter.
+You can write any annotation after a key. This can be useful
+if you want to store keys long-term or share them, in that you
+can note down what they're for without relying on file names.
+
+An annotation is not strictly part of the key, but rather of
+the storage format.
