@@ -5,6 +5,45 @@ scheme.
 
 [fernet]: https://github.com/fernet/spec/blob/master/Spec.md
 
+### Usage
+
+To generate a random fernet key:
+
+    python3 bitter.py generate > bitter-key
+
+Since encrypting and decrypting requires a key and an input, bitter expects
+one to provide either the `-k` or `-i` option. The two are mutually exclusive:
+
+  - `-k <file>` sets bitter to read the key from the first line of `<file>`
+    and the input from stdin.
+
+  - `-i <file>` sets bitter to read the input from `<file>` and
+    the key from the first line of stdin.
+
+To encrypt and decrypt with a key file:
+
+    python3 bitter.py encrypt -k bitter-key < secrets.txt > secrets.txt.bitter
+    python3 bitter.py decrypt -k bitter-key < secrets.txt.bitter > secrets.txt
+
+I don't envision any practical use of the `-k-` and `-i-` forms, which have
+the same effect of conflating the key and the input; anyway, the key is always
+read first.
+
+Upon encryption, bitter can append an explanatory annotation for you. Just
+provide the `-x` option:
+
+    $ python3 bitter.py encrypt -x -k bitter-key < secrets.txt
+    gAAAAABbbdhfYLHI4ETHr6tqKRbf0hhoN68-gA-8d2FlBClV9E79MpbENXK5sKrUrq_GjXVetcSIJLk3cp5pW-puq0gwBz8R-11rfvhxPnjV3Mxulmy21w8=
+    This is a bitter token file. The above line contains a fernet token.
+    Bitter: https://github.com/giucal/bitter
+    Fernet: https://github.com/fernet/spec/blob/master/Spec.md
+
+Using bitter in a pipeline is fine for small messages, but consider that bitter
+processes the input as a whole, not incrementally!
+
+    source | python3 bitter.py encrypt -k bitter-key | destination
+    source | python3 bitter.py decrypt -k bitter-key | destination
+
 # How it works
 
 Fernet (and so bitter) can encrypt a message as a *token*, an authenticated and
@@ -59,42 +98,3 @@ A *fernet token* has the following properties:
   - It's timestamped.
     Everyone can see when it was created; and that time is
     authenticated, so we can reject tokens we deem expired.
-
-### Usage
-
-To generate a random fernet key:
-
-    python3 bitter.py generate > bitter-key
-
-Since encrypting and decrypting requires a key and an input, bitter expects
-one to provide either the `-k` or `-i` option. The two are mutually exclusive:
-
-  - `-k <file>` sets bitter to read the key from the first line of `<file>`
-    and the input from stdin.
-
-  - `-i <file>` sets bitter to read the input from `<file>` and
-    the key from the first line of stdin.
-
-To encrypt and decrypt with a key file:
-
-    python3 bitter.py encrypt -k bitter-key < secrets.txt > secrets.txt.bitter
-    python3 bitter.py decrypt -k bitter-key < secrets.txt.bitter > secrets.txt
-
-I don't envision any practical use of the `-k-` and `-i-` forms, which have
-the same effect of conflating the key and the input; anyway, the key is always
-read first.
-
-Upon encryption, bitter can append an explanatory annotation for you. Just
-provide the `-x` option:
-
-    $ python3 bitter.py encrypt -x -k bitter-key < secrets.txt
-    gAAAAABbbdhfYLHI4ETHr6tqKRbf0hhoN68-gA-8d2FlBClV9E79MpbENXK5sKrUrq_GjXVetcSIJLk3cp5pW-puq0gwBz8R-11rfvhxPnjV3Mxulmy21w8=
-    This is a bitter token file. The above line contains a fernet token.
-    Bitter: https://github.com/giucal/bitter
-    Fernet: https://github.com/fernet/spec/blob/master/Spec.md
-
-Using bitter in a pipeline is fine for small messages, but consider that bitter
-processes the input as a whole, not incrementally!
-
-    source | python3 bitter.py encrypt -k bitter-key | destination
-    source | python3 bitter.py decrypt -k bitter-key | destination
