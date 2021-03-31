@@ -11,8 +11,8 @@ To generate a random fernet key:
 
     python3 bitter.py generate > bitter-key
 
-Since encrypting and decrypting requires a key and an input, bitter expects
-one to provide either the `-k` or `-i` option. The two are mutually exclusive:
+Encryption and decryption require a key and an input. Bitter expects you
+to provide either the `-k` or `-i` option. The two are mutually exclusive:
 
   - `-k <file>` sets bitter to read the key from the first line of `<file>`
     and the input from stdin.
