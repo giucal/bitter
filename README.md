@@ -84,6 +84,15 @@ I don't envision any practical use of the `-k-` and `-i-` forms, which have
 the same effect of conflating the key and the input; anyway, the key is always
 read first.
 
+Upon encryption, bitter can append an explanatory annotation for you. Just
+provide the `-x` option:
+
+    $ python3 bitter.py encrypt -x -k bitter-key < secrets.txt
+    gAAAAABbbdhfYLHI4ETHr6tqKRbf0hhoN68-gA-8d2FlBClV9E79MpbENXK5sKrUrq_GjXVetcSIJLk3cp5pW-puq0gwBz8R-11rfvhxPnjV3Mxulmy21w8=
+    This is a bitter token file. The above line contains a fernet token.
+    Bitter: https://github.com/giucal/bitter
+    Fernet: https://github.com/fernet/spec/blob/master/Spec.md
+
 Using bitter in a pipeline is fine for small messages, but consider that bitter
 processes the input as a whole, not incrementally!
 

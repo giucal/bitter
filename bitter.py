@@ -44,6 +44,14 @@ def exit_error(message):
     exit(1)
 
 
+# An explanatory annotation that can be appended to new tokens.
+PREDEFINED_TOKEN_ANNOTATION = (
+    b"This is a bitter token file. The above line contains a fernet token.\n"
+    b"Bitter: https://github.com/giucal/bitter\n"
+    b"Fernet: https://github.com/fernet/spec/blob/master/Spec.md"
+)
+
+
 def encrypt(args):
     key = args.key_file.readline()
     ptxt = args.input.read(-1)
@@ -56,6 +64,10 @@ def encrypt(args):
     ctxt = cipher.encrypt(ptxt)
     stdout.write(ctxt)
     stdout.write(b"\n")
+
+    if args.auto_annotate:
+        stdout.write(PREDEFINED_TOKEN_ANNOTATION)
+        stdout.write(b"\n")
 
 
 def decrypt(args):
@@ -119,6 +131,12 @@ def main():
         parents=[data],
         help="encrypt data into a token",
         description="Encrypt stdin (or <file>) into a fernet token.",
+    )
+    enc_mode.add_argument(
+        "-x",
+        dest="auto_annotate",
+        action="store_true",
+        help="append an explanatory annotation",
     )
     enc_mode.set_defaults(func=encrypt)
 
