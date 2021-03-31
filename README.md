@@ -44,7 +44,7 @@ processes the input as a whole, not incrementally!
     source | python3 bitter.py encrypt -k bitter-key | destination
     source | python3 bitter.py decrypt -k bitter-key | destination
 
-# How it works
+### How it works
 
 Fernet (and so bitter) can encrypt a message as a *token*, an authenticated and
 self-contained ciphertext encoded as a [base64url] string. To do so, it takes
