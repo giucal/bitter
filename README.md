@@ -44,6 +44,10 @@ processes the input as a whole, not incrementally!
     source | python3 bitter.py encrypt -k bitter-key | destination
     source | python3 bitter.py decrypt -k bitter-key | destination
 
+### Installation
+
+    pip3 install --user git+https://github.com/giucal/bitter
+
 ### How it works
 
 Fernet (and so bitter) can encrypt a message as a *token*, an authenticated and
