@@ -9,7 +9,7 @@ scheme.
 
 To generate a random fernet key:
 
-    python3 bitter.py generate > bitter-key
+    bitter generate > bitter-key
 
 Encryption and decryption require a key and an input. Bitter expects you
 to provide either the `-k` or `-i` option. The two are mutually exclusive:
@@ -22,8 +22,8 @@ to provide either the `-k` or `-i` option. The two are mutually exclusive:
 
 To encrypt and decrypt with a key file:
 
-    python3 bitter.py encrypt -k bitter-key < secrets.txt > secrets.txt.bitter
-    python3 bitter.py decrypt -k bitter-key < secrets.txt.bitter > secrets.txt
+    bitter encrypt -k bitter-key < secrets.txt > secrets.txt.bitter
+    bitter decrypt -k bitter-key < secrets.txt.bitter > secrets.txt
 
 I don't envision any practical use of the `-k-` and `-i-` forms, which have
 the same effect of conflating the key and the input; anyway, the key is always
@@ -32,7 +32,7 @@ read first.
 Upon encryption, bitter can append an explanatory annotation for you. Just
 provide the `-x` option:
 
-    $ python3 bitter.py encrypt -x -k bitter-key < secrets.txt
+    $ bitter encrypt -x -k bitter-key < secrets.txt
     gAAAAABbbdhfYLHI4ETHr6tqKRbf0hhoN68-gA-8d2FlBClV9E79MpbENXK5sKrUrq_GjXVetcSIJLk3cp5pW-puq0gwBz8R-11rfvhxPnjV3Mxulmy21w8=
     This is a bitter token file. The above line contains a fernet token.
     Bitter: https://github.com/giucal/bitter
@@ -41,8 +41,8 @@ provide the `-x` option:
 Using bitter in a pipeline is fine for small messages, but consider that bitter
 processes the input as a whole, not incrementally!
 
-    source | python3 bitter.py encrypt -k bitter-key | destination
-    source | python3 bitter.py decrypt -k bitter-key | destination
+    source | bitter encrypt -k bitter-key | destination
+    source | bitter decrypt -k bitter-key | destination
 
 ### Installation
 
