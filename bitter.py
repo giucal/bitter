@@ -92,7 +92,7 @@ def generate_key(args):
     stdout.write(b"\n")
 
 
-def main():
+def run():
     parser = ArgumentParser(
         description=__doc__,
         formatter_class=RawDescriptionHelpFormatter,
@@ -165,8 +165,12 @@ def main():
     args.func(args)
 
 
-if __name__ == "__main__":
+def main():
     try:
-        main()
+        run()
     except KeyboardInterrupt:
         exit(1)
+
+
+if __name__ == "__main__":
+    main()
