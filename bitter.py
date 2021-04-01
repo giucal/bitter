@@ -25,6 +25,8 @@ from cryptography.fernet import (
     InvalidToken,
 )
 
+__version__ = "0.1.0"
+
 stdin = stdin.buffer
 stdout = stdout.buffer
 
@@ -92,6 +94,13 @@ def generate_key(args):
     stdout.write(b"\n")
 
 
+def version(args):
+    from cryptography import __version__ as CRYPTOGRAPHY_VERSION
+
+    print(f"bitter v{ __version__}")
+    print(f"cryptography v{CRYPTOGRAPHY_VERSION} (fernet implementation)")
+
+
 def run():
     parser = ArgumentParser(
         description=__doc__,
@@ -125,6 +134,12 @@ def run():
             "Commands supported by bitter. See '<command> --help' for details."
         ),
     )
+
+    commands.add_parser(
+        "version",
+        help="print version",
+        description="Print version details.",
+    ).set_defaults(func=version)
 
     enc_mode = commands.add_parser(
         "encrypt",
